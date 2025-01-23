@@ -1,9 +1,9 @@
-Students Smart Buddies System
+**Students Smart Buddies System**
 
 Prepared By 
-ASSOCIATE PROF. DR. SURAYA BINTI HAMID
+**ASSOCIATE PROF. DR. SURAYA BINTI HAMID**
 AND
-LEE TIAN SIEN
+**LEE TIAN SIEN**
 
 
 A web based system use to manage the students buddies for FCSIT. Offering all basic system functions including analytic, some smart functions as well as to be able integrated with many parties including local and international activities organized.  The buddies system assist for any event including mobility, exchange , attachment and any other related students activities local and international.
