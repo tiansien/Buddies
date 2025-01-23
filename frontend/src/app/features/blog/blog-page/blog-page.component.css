@@ -1,0 +1,8 @@
+:host ::ng-deep .ant-tabs-nav {
+  margin-bottom: 2rem;
+}
+
+:host ::ng-deep .ant-tabs-tab {
+  font-size: 1.1rem;
+  padding: 12px 24px;
+}

@@ -1,0 +1,66 @@
+<!-- Title for the page -->
+<!-- <h1 class="text-center text-2xl font-bold my-4">Events</h1> -->
+
+<!-- <button (click)="drawerVisible = true"
+  class="mt-5 fixed top-25 right-10 z-50 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg flex items-center space-x-2">
+  <span class="font-bold pl-2">My Requests</span>
+  <nz-badge [nzCount]="participations.length"></nz-badge>
+</button> -->
+
+
+<button (click)="drawerVisible = true" *ngIf="role=='user'"
+class="fixed right-8 top-24 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg
+                       shadow-lg hover:shadow-xl transition-all duration-200
+                       flex items-center space-x-2">
+  <span class="text-lg">📆</span>
+  <span class="font-semibold">My Requests</span>
+  <span class="ml-2 px-2 py-0.5 bg-white text-purple-600 rounded-full text-sm font-bold">{{ participations.length
+    }}</span>
+</button>
+
+<!-- Drawer Component -->
+<app-participation-request-drawer [participations]="participations"
+  [(visible)]="drawerVisible"></app-participation-request-drawer>
+
+
+
+<!-- Search and Date Filter -->
+<div class="flex justify-center space-x-4 my-4">
+  <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Search events..." 
+    class="w-1/4 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+  <input type="date" #dateInput (change)="onDateChange(dateInput.value)" class="border p-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+
+  <!-- <app-participation-request-drawer [participations]="participations"></app-participation-request-drawer> -->
+</div>
+
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="loading-spinner">
+  <nz-spin [nzSize]="'large'"></nz-spin>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="!loading && hasError" class="empty-state">
+  <p>There was an error fetching events. Please try again later.</p>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="!loading && !hasError && filteredEvents.length === 0" class="empty-state">
+  <p>No events available at the moment. Please check back later.</p>
+</div>
+
+<!-- Events List -->
+<div *ngIf="!loading && !hasError && filteredEvents.length > 0" class="flex justify-center">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-screen-xl place-items-center">
+    <div *ngFor="let event of filteredEvents" class="card">
+      <img *ngIf="event.eventPictureUrls && event.eventPictureUrls.length > 0" [src]="event.eventPictureUrls[0]"
+        alt="Event Image" class="card-img" (click)="redirectToEventDetails(event.eventId)" />
+      <div class="card__content" (click)="redirectToEventDetails(event.eventId)">
+        <p class="card__title">{{ event.title }}</p>
+        <p class="card__description">{{ event.description }}</p>
+        <br />
+        <p class="italic text-sm font-bold">{{ event.date | date : "mediumDate" }}</p>
+        <p class="italic text-sm">Location: {{ event.location }}</p>
+      </div>
+    </div>
+  </div>
+</div>

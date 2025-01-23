@@ -1,0 +1,61 @@
+<div class="bg-purple-50 h-full content-center items-center">
+<div class="new-blog-container max-w-4xl mx-auto p-8 rounded-lg border shadow-md">
+    <div class="">
+        <!-- Profile Section -->
+        <div class="flex items-center mb-8">
+            <img class="profile-avatar w-24 h-24 rounded-full border-4 border-purple-300" [src]="pictureUrl"
+                alt="User Avatar" />
+            <div class="ml-6">
+                <h1 class="text-3xl font-bold mb-2">{{ username }}</h1>
+                <div class="flex gap-4">
+                    <span class="bg-yellow-400 text-black py-1 px-3 rounded-full text-sm text-center">{{ faculty }}</span>
+                    <span class="bg-orange-400 text-black py-1 px-3 rounded-full text-sm text-center">{{ program }}</span>
+                    <span class="bg-purple-300 text-black py-1 px-3 rounded-full text-sm text-center">{{ yearOfStudy }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Input Section -->
+        <div class="flex flex-col mb-6">
+            <label for="files" class="mb-2 font-medium">Files *</label>
+            <input type="file" id="files" (change)="onFileSelected($event)" multiple
+                class="w-full file:border file:px-4 file:py-2 file:bg-blue-50 file:text-blue-700 file:rounded">
+        </div>
+
+        <!-- Title Input -->
+        <div class="mb-4">
+            <label class="block text-lg font-bold mb-2" for="title">Title</label>
+            <input id="title" nz-input [(ngModel)]="title" placeholder="Enter blog title"
+                class="w-full p-3 border border-gray-300 rounded-lg" />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="mb-4">
+            <label class="block text-lg font-bold mb-2" for="category">Category</label>
+            <nz-select id="category" class="w-full" [(ngModel)]="description2" placeholder="Select category">
+                <nz-option nzValue="Technology" nzLabel="Technology"></nz-option>
+                <nz-option nzValue="Education" nzLabel="Education"></nz-option>
+                <nz-option nzValue="Lifestyle" nzLabel="Lifestyle"></nz-option>
+                <nz-option nzValue="Travel" nzLabel="Travel"></nz-option>
+                <nz-option nzValue="Sport" nzLabel="Sport"></nz-option>
+                <nz-option nzValue="Fashion" nzLabel="Fashion"></nz-option>
+                <nz-option nzValue="Event" nzLabel="Event"></nz-option>
+            </nz-select>
+        </div>
+
+        <!-- Post Description -->
+        <div class="mb-6">
+            <label class="block text-lg font-bold mb-2" for="description">Post Description</label>
+            <textarea id="description" nz-input [(ngModel)]="description" rows="5" placeholder="Enter post description"
+                class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+        </div>
+
+        <!-- Post Button -->
+        <div class="flex justify-end gap-4">
+            <button nz-button nzType="primary" class="bg-purple-800 text-white px-6 py-3 rounded-lg font-bold"
+                (click)="onSubmitBlog()">POST</button>
+        </div>
+    </div>
+</div>
+
+</div>

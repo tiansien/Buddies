@@ -1,0 +1,47 @@
+.detail-page-container {
+  display: flex;
+  height: full-height;
+  /* Full viewport height minus padding/margin */
+  overflow: hidden;
+}
+
+.carousel-container {
+  position: sticky;
+  top: 0;
+  /* Keeps the carousel fixed at the top of the viewport */
+  height: 100%;
+  overflow: hidden;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header-section {
+  flex-shrink: 0;
+  /* Prevent shrinking and keep this section at the top */
+}
+
+.like-comment-buttons {
+  flex-shrink: 0;
+  /* Prevent shrinking and keep this section below the header */
+}
+
+.comments-section {
+  flex-grow: 1;
+  overflow-y: auto;
+  /* Allow only the comments section to be scrollable */
+  /* padding-bottom: 60px; */
+  /* Avoid overlap with the input section */
+}
+
+.comment-input {
+  flex-shrink: 0;
+  /* Keep the input section fixed at the bottom */
+  position: sticky;
+  bottom: 0;
+  background-color: #e9d8fd;
+  z-index: 10;
+}

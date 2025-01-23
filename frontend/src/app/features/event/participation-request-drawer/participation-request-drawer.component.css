@@ -1,0 +1,7 @@
+::ng-deep .participation-drawer .ant-drawer-body {
+    padding: 0;
+}
+
+::ng-deep .participation-drawer .ant-drawer-content-wrapper {
+    height: 100%;
+}

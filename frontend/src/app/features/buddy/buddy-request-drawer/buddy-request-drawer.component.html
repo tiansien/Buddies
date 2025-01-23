@@ -1,0 +1,155 @@
+<div class="buddy-request-drawer p-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between ">
+        <h2 class="text-2xl font-bold text-gray-800">Buddy Requests</h2>
+        <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-semibold">
+            {{ buddyRequests.length }} New
+        </span>
+    </div>
+
+    <div class="mb-5">
+        You are only allow to accept 1 Buddies
+    </div>
+
+    
+
+    <!-- Request List -->
+    <div class="space-y-4">
+        <div *ngFor="let request of buddyRequests"
+            class="buddy-request-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center space-x-4">
+                <!-- Profile Picture -->
+                <div class="relative">
+                    <img [src]="'http://localhost:8080/download/user/' + request.appUser.profilePhoto" [alt]="request.appUser.login"
+                        class="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+                        (error)="handleImageError($event)">
+                    <!-- <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"> -->
+                    <!-- </div> -->
+                </div>
+
+                <!-- Request Info -->
+                <div class="flex-grow">
+                    <h3 class="font-semibold text-gray-800">{{ request.appUser.login }}</h3>
+                    <p class="text-sm text-gray-500">
+                        Requested {{ formatDate(request.requestDate) }}
+                    </p>
+                    <p class="text-sm text-purple-500" *ngIf="request.status === 'accepted'">
+                        You accepted {{ request.appUser.login }} as your buddy
+                    </p>
+                    <p class="text-sm text-gray-500" *ngIf="request.status === 'rejected'">
+                        {{ request.appUser.login }} have been rejected
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                
+            </div>
+
+            <div class="flex space-x-2 ml-auto items-end justify-end" *ngIf="request.status === 'pending'">
+                <button (click)="acceptRequest(request.requestID)" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg text-sm font-medium
+                                         hover:from-purple-600 hover:to-indigo-600 transition-all duration-200
+                                         focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    Accept
+                </button>
+                <button (click)="rejectRequest(request.requestID)" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium
+                                         hover:bg-gray-200 transition-all duration-200
+                                         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Reject
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="buddyRequests.length === 0" class="text-center py-8">
+        <div class="text-gray-400 mb-2">
+            <i nz-icon nzType="user" nzTheme="outline" class="text-4xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-600">No Buddy Requests</h3>
+        <p class="text-sm text-gray-400">When someone requests to be your buddy, they'll appear here</p>
+    </div>
+
+
+
+
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6 pt-6">
+        <h2 class="text-2xl font-bold text-gray-800 ">Requesting Status</h2>
+        <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-semibold">
+            {{ buddyRequestsMade.length }} New
+        </span>
+    </div>
+    
+    <!-- Request List -->
+    <div class="space-y-4">
+        <div *ngFor="let request of buddyRequestsMade"
+            class="buddy-request-card bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div class="flex items-center space-x-4">
+                <!-- Profile Picture -->
+                <div class="relative">
+                    <img [src]="'http://localhost:8080/download/user/' + request.receiver.profilePhoto"
+                        [alt]="request.receiver.login"
+                        class="w-12 h-12 rounded-full object-cover border-2 border-purple-200"
+                        (error)="handleImageError($event)">
+                    <!-- <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"> -->
+                    <!-- </div> -->
+                </div>
+    
+                <!-- Request Info -->
+                <div class="flex-grow">
+                    <h3 class="font-semibold text-gray-800">{{ request.receiver.login }}</h3>
+                    <p class="text-sm text-gray-500">
+                        Requested {{ formatDate(request.requestDate) }}
+                    </p>
+                </div>
+    
+                <!-- Action Buttons -->
+    
+            </div>
+    
+            <!-- <div class="flex space-x-2 ml-auto items-end justify-end">
+                <div class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg text-sm font-medium
+                                             hover:from-purple-600 hover:to-indigo-600 transition-all duration-200
+                                             focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    {{ request.status }}
+            </div>
+                <button (click)="deleteRequest(request.requestID)" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium
+                                             hover:bg-gray-200 transition-all duration-200
+                                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Reject
+                </button>
+            </div> -->
+
+
+            <div class="flex space-x-2 ml-auto items-end justify-end">
+                <div class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium
+                                                         hover:bg-gray-200 transition-all duration-200
+                                                         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" 
+                    >
+                    {{ request.status }}
+                </div>
+                <button (click)="deleteRequest(request.requestID)" *ngIf="request.status === 'pending'"
+                                                         class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg text-sm font-medium
+                                                         hover:from-red-600 hover:to-indigo-600 transition-all duration-200
+                                                         focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    DELETE
+                </button>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="buddyRequestsMade.length === 0" class="text-center py-8">
+        <div class="text-gray-400 mb-2">
+            <i nz-icon nzType="user" nzTheme="outline" class="text-4xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-600">No Buddy Requests</h3>
+        <p class="text-sm text-gray-400">When you requests someone be your buddy, they'll appear here</p>
+    </div>
+
+
+
+    
+</div>

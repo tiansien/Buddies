@@ -1,0 +1,121 @@
+<!-- edit-event.component.html -->
+<div class="items-center content-center max-h-max bg-purple-50">
+    <div *ngIf="loading" class="flex justify-center p-8">
+        <nz-spin nzTip="Loading..."></nz-spin>
+    </div>
+
+    <form *ngIf="!loading && eventForm" [formGroup]="eventForm" (ngSubmit)="submitForm()"
+        class="flex flex-col gap-6 items-center px-4 py-8">
+        <div class="space-y-6 w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b">Edit Event</h1>
+
+            <!-- Debug info -->
+            <!-- <div *ngIf="event" class="text-sm text-gray-500 mb-4">
+                Event ID: {{eventId}}
+            </div> -->
+
+            <!-- Title Input -->
+            <div class="flex flex-col">
+                <label for="title" class="mb-2 font-medium text-gray-700">Title *</label>
+                <input nz-input type="text" formControlName="title" id="title" placeholder="Enter event title"
+                    class="w-full rounded border-gray-300 p-2" />
+                <div *ngIf="eventForm.get('title')?.touched && eventForm.get('title')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Title is required
+                </div>
+            </div>
+
+            <!-- Date Input -->
+            <div class="flex flex-col">
+                <label for="date" class="mb-2 font-medium text-gray-700">Date *</label>
+                <input nz-input type="date" formControlName="date" id="date"
+                    class="w-full rounded border-gray-300 p-2" />
+                <div *ngIf="eventForm.get('date')?.touched && eventForm.get('date')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Date is required
+                </div>
+            </div>
+
+            <!-- Date Input -->
+            <div class="flex flex-col">
+                <label for="date" class="mb-2 font-medium text-gray-700">Apply Due Date *</label>
+                <input nz-input type="date" formControlName="applyDueDate" id="applyDueDate" class="w-full rounded border-gray-300 p-2" />
+                <div *ngIf="eventForm.get('applyDueDate')?.touched && eventForm.get('applyDueDate')?.invalid" class="text-red-500 text-sm mt-1">
+                    Date is required
+                </div>
+            </div>
+
+            <!-- Location Input -->
+            <div class="flex flex-col">
+                <label for="location" class="mb-2 font-medium text-gray-700">Location *</label>
+                <input nz-input type="text" formControlName="location" id="location" placeholder="Enter event location"
+                    class="w-full rounded border-gray-300 p-2" />
+                <div *ngIf="eventForm.get('location')?.touched && eventForm.get('location')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Location is required
+                </div>
+            </div>
+
+            <!-- Description Input -->
+            <div class="flex flex-col">
+                <label for="description" class="mb-2 font-medium text-gray-700">Description *</label>
+                <textarea nz-input formControlName="description" id="description" rows="5"
+                    placeholder="Enter event description" class="w-full rounded border-gray-300 p-2"></textarea>
+                <div *ngIf="eventForm.get('description')?.touched && eventForm.get('description')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Description is required
+                </div>
+            </div>
+
+            <!-- Event Type Select -->
+            <div class="flex flex-col">
+                <label for="eventType" class="mb-2 font-medium text-gray-700">Event Type *</label>
+                <nz-select formControlName="eventType" id="eventType" nzPlaceHolder="Select an event type"
+                    class="w-full">
+                    <nz-option nzValue="workshop" nzLabel="Workshop"></nz-option>
+                    <nz-option nzValue="seminars" nzLabel="Seminars"></nz-option>
+                    <nz-option nzValue="networking event" nzLabel="Networking Event"></nz-option>
+                    <nz-option nzValue="conferences" nzLabel="Conferences"></nz-option>
+                </nz-select>
+                <div *ngIf="eventForm.get('eventType')?.touched && eventForm.get('eventType')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Event type is required
+                </div>
+            </div>
+
+            <!-- Existing Images -->
+            <div class="flex flex-col" *ngIf="existingImages.length > 0">
+                <label class="mb-2 font-medium text-gray-700">Current Images</label>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div *ngFor="let img of existingImages; let i = index" class="relative">
+                        <img [src]="img" class="w-full h-32 object-cover rounded" />
+                        <button type="button"
+                            class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                            (click)="removeExistingImage(i)">
+                            <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Files Input -->
+            <div class="flex flex-col">
+                <label for="files" class="mb-2 font-medium text-gray-700">Add New Images</label>
+                <input type="file" id="files" (change)="onFileSelected($event)" multiple
+                    class="w-full file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end gap-4 mt-8">
+                <button type="button" nz-button (click)="onCancel()"
+                    class="px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                    Cancel
+                </button>
+                <button type="submit" nz-button nzType="primary" [disabled]="eventForm.invalid || loading"
+                    class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Update Event
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

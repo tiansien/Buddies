@@ -1,0 +1,103 @@
+<div class="w-full bg-white">
+  <!-- Centered Content Container -->
+  <div class="max-w-6xl mx-auto px-4">
+    <!-- Profile Section -->
+    <div class="profile-header flex items-start pt-8">
+      <!-- Avatar Section -->
+      <div class="flex flex-col items-center mr-8">
+        <img class="profile-avatar object-cover"
+          [src]="user?.profilePhoto ? ('http://localhost:8080/download/User/' + user.profilePhoto) : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'"
+          alt="User Avatar" />
+        <ng-container *ngIf="!isMyProfile">
+          <button nz-button nzType="primary" class="follow-button mt-4" *ngIf="!isFollowed" (click)="followUser()">
+            Follow
+          </button>
+          <div *ngIf="isFollowed" class="flex gap-2 mt-4">
+            <button nz-button nzType="default" class="unfollow-button bg-gray-300 text-black px-4 py-2 rounded-full"
+              (click)="followUser()">
+              Unfollow
+            </button>
+            <button nz-button nzType="primary" class="message-button bg-purple-400 text-white px-4 py-2 rounded-full"
+              (click)="messageUser()">
+              Message
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Profile Information Section -->
+      <div class="flex-1">
+        <div class="flex justify-between items-start">
+          <div>
+            <h1 class="text-4xl font-bold mb-2">{{ user?.firstName }} {{ user?.lastName }}</h1>
+            <div class="flex gap-4 mb-4">
+              <span class="badge font-bold bg-purple-400 text-white">{{ userProfile?.fac }}</span>
+              <span class="badge font-bold bg-orange-400 text-white">{{ userProfile?.program }}</span>
+              <span class="badge system font-bold">{{ userProfile?.yearOfStudy }}</span>
+            </div>
+            <p class="text-gray-600 mb-4">{{ userProfile?.bio }}</p>
+          </div>
+          <div class="text-gray-500 cursor-pointer" *ngIf="isMyProfile">
+            <i nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px;" (click)="redirectToEditPage()"></i>
+          </div>
+        </div>
+
+        <div class="following-info flex gap-4 text-xl">
+          <span>{{ following }} Following</span>
+          <span class="mx-2">|</span>
+          <span>{{ follower }} Followers</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="this.user.buddy!=null">
+    <!-- Separator -->
+    <div class="separator my-6 ful"></div>
+
+    <!-- Buddy Section -->
+    <div  class="flex flex-col items-center">
+      <h2 class="font-bold mb-4 self-start">Current Buddy</h2>
+      <div class="buddy-card" nz-tooltip="Go to buddy profile" (click)="redirectToBuddyProfile(buddyUser.id)">
+        <div class="buddy-info">
+          <div class="profile-image">
+            <img [src]="buddyUser.profilePhoto || 'assets/default-avatar.png'" alt="Profile picture">
+          </div>
+          <div class="buddy-details">
+            <h2>{{ buddyUser.login }}</h2>
+            <div class="badges">
+              <span class="badge year">{{ buddyProfile.program }}</span>
+              <span class="badge system">{{ buddyProfile.yearOfStudy }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="separator my-6"></div>
+
+    </div>
+  </div>
+
+  <!-- Tabs Section - Full Width Background -->
+  <div class="w-full">
+    <nz-tabset nzSize="large" nzCentered="true">
+      <nz-tab nzTitle="Blog" class="font-bold text-xl">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="all-blogs">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <app-blog-item *ngFor="let blog of allBlogs" [title]="blog.title" [description]="blog.description"
+                [imageUrl]="blog.imageUrl" [likes]="blog.likes" [comments]="blog.comments" [category]="blog.category"
+                [profilePictureUrl]="blog.profilePictureUrl" [postingDate]="blog.postingDate"
+                [postingAuthor]="blog.postingAuthor" [blogId]="blog.id" [isProfile]=true [authorId]="blog.authorId">
+              </app-blog-item>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="allBlogs==null || allBlogs.length==0" class="flex justify-center mt-8">
+          <nz-empty></nz-empty>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

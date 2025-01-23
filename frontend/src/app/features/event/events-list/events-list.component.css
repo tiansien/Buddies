@@ -1,0 +1,118 @@
+/* General styling for layout */
+.min-screen-full-height {
+  height: 100vh; /* Full viewport height */
+}
+
+/* Event card styling */
+.card-background {
+  background-color: #ffffff; /* White background for cards */
+  border-radius: 12px; /* Rounded corners for a softer look */
+  overflow: hidden; /* Ensure images and content don’t overflow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.card-background:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Shadow on hover for depth */
+}
+
+/* Card image */
+.card-background img {
+  width: 100%; /* Full width of card */
+  height: 180px; /* Set height for uniformity */
+  object-fit: cover; /* Ensure images fill the space */
+  border-bottom: 1px solid #f0f0f0; /* Subtle separator between image and content */
+}
+
+/* Loading spinner styling */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh; /* Spinner should fill enough space to be centered */
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  margin-top: 50px; /* Add some top margin for spacing */
+  color: #999; /* Light gray color for empty state text */
+}
+
+/* Grid layout adjustment */
+.grid {
+  display: grid;
+  gap: 20px; /* Consistent gap between items */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Responsive layout for grid */
+}
+
+/* Card Style */
+.card {
+  position: relative;
+  width: 300px; /* Adjusted for 4:5 ratio */
+  height: 350px; /* Adjusted for 4:5 ratio */
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  perspective: 1000px;
+  box-shadow: 0 0 0 5px #ffffff80;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.card-img {
+  width: 100%;
+  height: 100%; /* Adjusted height for image */
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: rgba(
+    232,
+    215,
+    248,
+    0.9
+  ); /* Slightly transparent background */
+  transform: translateY(100%);
+  transform-origin: top;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .card__content {
+  transform: translateY(0);
+}
+
+.card__title {
+  margin: 0;
+  font-size: 18px; /* Slightly smaller to fit the card */
+  color: #333;
+  font-weight: 700;
+}
+
+.card__description {
+  margin: 10px 0 0;
+  font-size: 12px; /* Adjusted for space */
+  color: #4d4d4d;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

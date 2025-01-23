@@ -1,0 +1,136 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100"
+  style="background-image: url('/assets/images/background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+    <img src="/assets/images/logoWithName.svg" alt="logo" class="w-1/2 mx-auto mb-1.5" />
+    <nz-tabset [(nzSelectedIndex)]="activeTabIndex" (nzSelectedIndexChange)="onTabChange($event)" nzCentered="true">
+
+      <!-- Login Tab -->
+      <nz-tab nzTitle="Login">
+        <ng-template nz-tab>
+          <form (ngSubmit)="onSubmitLogin()" #loginForm="ngForm">
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="loginName" nzRequired>Username</nz-form-label>
+                  <input nz-input id="loginName" name="login" required [(ngModel)]="login" class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="loginPassword" nzRequired>Password</nz-form-label>
+                  <input type="password" id="loginPassword" name="password" nz-input required [(ngModel)]="password"
+                    class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <button nz-button nzType="primary" nzBlock class="mb-4">Sign in</button>
+            <div *ngIf="loginError" class="text-red-500">{{ loginError }}</div>
+          </form>
+        </ng-template>
+      </nz-tab>
+
+      <!-- Register Tab -->
+      <nz-tab nzTitle="Register">
+        <ng-template nz-tab>
+          <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="firstName" nzRequired>First name</nz-form-label>
+                  <input nz-input id="firstName" name="firstName" required [(ngModel)]="firstName"
+                    class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="lastName" nzRequired>Last name</nz-form-label>
+                  <input nz-input id="lastName" name="lastName" required [(ngModel)]="lastName" class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="registerLogin" nzRequired>Username</nz-form-label>
+                  <input nz-input id="registerLogin" name="login" required [(ngModel)]="login" class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="mb-4">
+              <nz-form-item>
+                <nz-form-control nzHasFeedback>
+                  <nz-form-label nzFor="registerPassword" nzRequired>Password</nz-form-label>
+                  <input type="password" id="registerPassword" name="password" nz-input required [(ngModel)]="password"
+                    class="form-control" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <button nz-button nzType="primary" nzBlock class="mb-3">Register</button>
+            <div *ngIf="registerError" class="text-red-500">{{ registerError }}</div>
+          </form>
+        </ng-template>
+      </nz-tab>
+
+      <!-- Reset Password Tab -->
+      <nz-tab nzTitle="Reset Password">
+        <ng-template nz-tab>
+          <div *ngIf="!codeSent">
+            <form (ngSubmit)="onSubmitResetRequest()" #resetRequestForm="ngForm">
+              <div class="mb-4">
+                <nz-form-item>
+                  <nz-form-control nzHasFeedback>
+                    <nz-form-label nzFor="resetEmail" nzRequired>Email</nz-form-label>
+                    <input nz-input id="resetEmail" name="email" type="email" required [(ngModel)]="resetEmail"
+                      class="form-control" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <button nz-button nzType="primary" nzBlock class="mb-4">Request Reset Code</button>
+              <div *ngIf="resetRequestError" class="text-red-500">{{ resetRequestError }}</div>
+              <div *ngIf="resetRequestSuccess" class="text-green-500">{{ resetRequestSuccess }}</div>
+            </form>
+          </div>
+
+          <div *ngIf="codeSent">
+            <form (ngSubmit)="onSubmitPasswordReset()" #resetForm="ngForm">
+              <div class="mb-4">
+                <nz-form-item>
+                  <nz-form-control nzHasFeedback>
+                    <nz-form-label nzFor="resetCode" nzRequired>Reset Code</nz-form-label>
+                    <input nz-input id="resetCode" name="code" required [(ngModel)]="resetCode" class="form-control" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="mb-4">
+                <nz-form-item>
+                  <nz-form-control nzHasFeedback>
+                    <nz-form-label nzFor="newPassword" nzRequired>New Password</nz-form-label>
+                    <input type="password" id="newPassword" name="newPassword" nz-input required
+                      [(ngModel)]="newPassword" class="form-control" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <button nz-button nzType="primary" nzBlock class="mb-4">Reset Password</button>
+              <div *ngIf="resetError" class="text-red-500">{{ resetError }}</div>
+              <div *ngIf="resetSuccess" class="text-green-500">{{ resetSuccess }}</div>
+            </form>
+          </div>
+        </ng-template>
+      </nz-tab>
+
+    </nz-tabset>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<!-- <button (click)="openDrawer()"
+    class="fixed top-25 right-10 z-50 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg flex items-center space-x-2">
+    <span>My Requests</span>
+    <nz-badge [nzCount]="participations.length"></nz-badge>
+</button> -->
+
+<nz-drawer [(nzVisible)]="visible" [nzWidth]="500" nzPlacement="right" nzTitle="My Event Participation Requests"
+    (nzOnClose)="onClose()" class="participation-drawer">
+    <div class="px-4" *nzDrawerContent>
+        <!-- Approved Section -->
+        <div class="mb-8 border-b pb-4">
+            <h3 class="text-lg font-semibold text-green-600 mb-4 flex items-center">
+                Approved
+                <nz-badge [nzCount]="approvedRequests.length" [nzStyle]="{ backgroundColor: '#52c41a' }"
+                    class="ml-2"></nz-badge>
+            </h3>
+            <div class="space-y-4">
+            <div *ngFor="let request of approvedRequests" class="bg-green-50 p-4 rounded-lg border border-green-200 hover:shadow-lg" (click)="openEventDetails(request)">
+                <h4 class="font-medium text-gray-900">{{ request.event?.title || 'Untitled Event' }}</h4>
+                <p class="text-sm text-gray-600">{{ request.event?.date | date:'mediumDate' }}</p>
+                <p class="text-sm text-gray-600">Location: {{ request.event?.location || 'No location specified' }}</p>
+                <p class="text-sm text-gray-600">Role: {{ request.role || 'No role specified' }}</p>
+            </div>
+            <div *ngIf="approvedRequests.length === 0" class="text-gray-500 text-sm italic">
+                No approved requests
+            </div>
+        </div>
+        </div>
+
+        <!-- Pending Section -->
+        <div class="mb-8 border-b pb-4">
+            <h3 class="text-lg font-semibold text-yellow-600 mb-4 flex items-center">
+                Pending
+                <nz-badge [nzCount]="pendingRequests.length" [nzStyle]="{ backgroundColor: '#faad14' }"
+                    class="ml-2"></nz-badge>
+            </h3>
+            <div class="space-y-4">
+                <div *ngFor="let request of pendingRequests"
+                    class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 hover:shadow-lg" (click)="openEventDetails(request)">
+                    <h4 class="font-medium text-gray-900">{{request.event?.title || 'Untitled Event'}}</h4>
+                    <p class="text-sm text-gray-600">{{request.event?.date | date:'mediumDate'}}</p>
+                    <p class="text-sm text-gray-600">Location: {{request.event?.location || 'No location specified'}}
+                    </p>
+                    <p class="text-sm text-gray-600">Role: {{request.role || 'No role specified'}}</p>
+                    <p class="text-sm text-gray-500 mt-2">Reason: {{request.applyReason || 'No reason provided'}}</p>
+                </div>
+                <div *ngIf="pendingRequests.length === 0" class="text-gray-500 text-sm italic">
+                    No pending requests
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejected Section -->
+        <div class="pb-4">
+            <h3 class="text-lg font-semibold text-red-600 mb-4 flex items-center">
+                Rejected
+                <nz-badge [nzCount]="rejectedRequests.length" [nzStyle]="{ backgroundColor: '#ff4d4f' }"
+                    class="ml-2"></nz-badge>
+            </h3>
+            <div class="space-y-4">
+                <div *ngFor="let request of rejectedRequests" class="bg-red-50 p-4 rounded-lg border border-red-200 hover:shadow-lg" (click)="openEventDetails(request)">
+                    <h4 class="font-medium text-gray-900">{{request.event?.title || 'Untitled Event'}}</h4>
+                    <p class="text-sm text-gray-600">{{request.event?.date | date:'mediumDate'}}</p>
+                    <p class="text-sm text-gray-600">Location: {{request.event?.location || 'No location specified'}}
+                    </p>
+                    <p class="text-sm text-gray-600">Role: {{request.role || 'No role specified'}}</p>
+                    <p class="text-sm text-gray-500 mt-2">Reason: {{request.applyReason || 'No reason provided'}}</p>
+                    <p class="text-sm text-gray-500 mt-2">Reject Reason: {{request.rejectReason || 'No reason provided'}}</p>
+                </div>
+                <div *ngIf="rejectedRequests.length === 0" class="text-gray-500 text-sm italic">
+                    No rejected requests
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-drawer>

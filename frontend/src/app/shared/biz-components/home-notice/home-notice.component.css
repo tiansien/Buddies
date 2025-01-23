@@ -1,0 +1,9 @@
+.ant-list-item {
+    cursor: pointer;
+    &:hover {
+        background: #FFE9BE;
+    }
+    &.read {
+        opacity: 0.4;
+    }
+}

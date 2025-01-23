@@ -1,0 +1,120 @@
+<!-- <nz-card [nzBodyStyle]="{ paddingLeft: 1, paddingRight: 1 }" class="w-96">
+  <nz-tabset
+    nzCentered
+    [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }"
+  >
+    <nz-tab nzTitle="Notification (4)">
+      <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+    </nz-tab>
+
+    <nz-tab nzTitle="Message (3)">
+      <ng-container *ngTemplateOutlet="notificationTpl"></ng-container>
+    </nz-tab>
+
+  </nz-tabset>
+</nz-card>
+
+<ng-template #notificationTpl>
+  <div class="max-h-72 overflow-y-auto">
+    <nz-list [nzItemLayout]="'horizontal'">
+      <nz-list-item *ngFor="let i of 4 | numberLoop">
+        <nz-list-item-meta class="px-2">
+          <nz-list-item-meta-title>
+            <div class="flex p-l-10 p-r-10">
+              <span nz-typography nzEllipsis class="flex-1"
+                >Lee is Liked your blog</span
+              >
+              <nz-tag class="m-l-10" [nzColor]="'red'">New</nz-tag>
+            </div>
+          </nz-list-item-meta-title>
+          <nz-list-item-meta-description>
+            <div class="p-l-10 p-r-10">
+              <p
+                nz-typography
+                nzType="secondary"
+                nzEllipsis
+                [nzEllipsisRows]="3"
+              >
+                Ant Design, a design language for background applications, is
+                refined by Ant UED Team
+              </p>
+              <p>Time: example</p>
+            </div>
+          </nz-list-item-meta-description>
+        </nz-list-item-meta>
+      </nz-list-item>
+    </nz-list>
+  </div>
+</ng-template> -->
+
+
+
+<!-- home-notice.component.html -->
+<nz-card [nzBodyStyle]="{ paddingLeft: 1, paddingRight: 1 }" class="w-96">
+  <nz-tabset nzCentered [nzTabBarStyle]="{ paddingLeft: '15px', paddingRight: '15px' }">
+    <nz-tab [nzTitle]="notificationTab">
+      <ng-container *ngTemplateOutlet="noticeTpl; context: { items: (notifications$ | async) || [] }">
+      </ng-container>
+    </nz-tab>
+
+    <nz-tab [nzTitle]="messageTab">
+      <ng-container *ngTemplateOutlet="noticeTpl; context: { items: (messages$ | async) || [] }">
+      </ng-container>
+    </nz-tab>
+  </nz-tabset>
+</nz-card>
+
+<ng-template #notificationTab>
+  <span>Notification ({{ getNotificationCount(notifications$ | async) }})</span>
+</ng-template>
+
+<ng-template #messageTab>
+  <span>Message ({{ getMessageCount(messages$ | async) }})</span>
+</ng-template>
+
+<ng-template #noticeTpl let-items="items">
+  <div class="max-h-72 overflow-y-auto">
+    <nz-list [nzItemLayout]="'horizontal'" [nzLoading]="!items">
+      <ng-container *ngIf="items.length > 0; else emptyState">
+        <!-- <nz-list-item *ngFor="let item of items" (click)="markAsRead(item.notificationID)"> -->
+          <nz-list-item *ngFor="let item of items" (click)="markAsRead(item)" nz-tooltip="Click to view the notification">
+          <nz-list-item-meta class="px-2">
+            <nz-list-item-meta-avatar>
+              <!-- <nz-avatar [nzSize]="40" [nzSrc]="'http://localhost:8080/download/user/' + item.fromId.profilePhoto || 'http://localhost:8080/download/user/defaultProfilePicture.jpg'" [nzAlt]="item.fromId.login" (click)="directToProfile(item.fromId.id)"> -->
+                <nz-avatar [nzSize]="40"
+                  [nzSrc]="'http://localhost:8080/download/user/' + item.fromId.profilePhoto || 'http://localhost:8080/download/user/defaultProfilePicture.jpg'"
+                  [nzAlt]="item.fromId.login">
+                [nzAlt]="item.fromId.login">
+              </nz-avatar>
+            </nz-list-item-meta-avatar>
+            <!-- <nz-list-item-meta-title (click)="directToBlogOrPostOrMessage(item, item.type, item.referenceID)"> -->
+              <nz-list-item-meta-title >
+              <div class="flex items-center justify-between">
+                <div class="flex flex-col flex-1">
+                  <span class="font-medium">{{ item.fromId.login }}</span>
+                  <span nz-typography nzEllipsis class="text-sm text-gray-600">
+                    {{ getDisplayContent(item) }}
+                  </span>
+                </div>
+                <div class="flex flex-col items-end ml-2">
+                  <nz-tag class="mb-1" [nzColor]="'red'" *ngIf="item.isRead === 'N'">New</nz-tag>
+                  <span class="text-xs text-gray-500">{{ getTimeDisplay(item.timestamp) }}</span>
+                </div>
+              </div>
+            </nz-list-item-meta-title>
+            <nz-list-item-meta-description *ngIf="item.content">
+              <div class="pl-0 pr-2 mt-1">
+                <p nz-typography nzEllipsis [nzEllipsisRows]="2" class="text-sm">
+                  {{ item.content }}
+                </p>
+              </div>
+            </nz-list-item-meta-description>
+          </nz-list-item-meta>
+        </nz-list-item>
+      </ng-container>
+      <ng-template #emptyState>
+        <nz-empty></nz-empty>
+      </ng-template>
+    </nz-list>
+  </div>
+</ng-template>

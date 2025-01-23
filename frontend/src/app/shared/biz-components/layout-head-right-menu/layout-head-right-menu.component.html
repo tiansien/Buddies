@@ -1,0 +1,50 @@
+<ng-container *ngTemplateOutlet="headRight"></ng-container>
+<ng-template #headRight>
+  <div class="bst-header-wrap">
+    <!-- <span class="bst-header-icon" nz-tooltip nzTooltipTitle="Search" nzTooltipPlacement="bottom">
+      <i nz-icon nzType="search" nzTheme="outline"></i>
+    </span>
+
+    <span class="bst-header-icon" nz-tooltip nzTooltipTitle="OnChat" nzTooltipPlacement="bottom">
+      <a href="http://docs.chat.hypergo.net/docs/intro" target="_blank">
+        <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+      </a>
+    </span> -->
+
+    <span class="bst-header-icon" nz-dropdown [nzDropdownMenu]="noticeMenu" nzTrigger="click" nzPlacement="bottomRight">
+      <!-- <nz-badge [nzCount]="11" class="bst-badge"> -->
+        <nz-badge [nzCount]="(totalUnreadCount$ | async) || 0" [nzOverflowCount]="99" class="bst-badge">
+        <i nz-icon nzType="bell" nzTheme="outline"></i>
+      </nz-badge>
+    </span>
+
+    <span class="bst-header-icon user-settings" nz-dropdown [nzDropdownMenu]="userSettingMenu">
+      <img class="avatar" [src]= "userProfilePhoto" alt="profilePicture"/>
+      <!-- <img class="avatar" src="assets/images/defaultProfilePicture.jpg" alt="profilePicture" /> -->
+      <span class="base-font-size">{{ user.login }}</span>
+      <!-- <span class="base-font-size">Tian Sien</span> -->
+    </span>
+
+    <nz-dropdown-menu #userSettingMenu>
+      <ul nz-menu>
+        <li nz-menu-item (click)="profilePage()" class="dropdown-item-wrapper">
+          <i nz-icon nzType="user" nzTheme="outline" class="dropdown-item-icon"></i>
+          <span class="pl-2">Profile</span>
+        </li>
+
+        <li nz-menu-divider></li>
+
+        <li nz-menu-item class="dropdown-item-wrapper">
+          <a (click)="logout()" class="dropdown-item-link">
+            <i nz-icon nzType="logout" nzTheme="outline" class="dropdown-item-icon"></i>
+            <span class="pl-2">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+
+  <nz-dropdown-menu #noticeMenu="nzDropdownMenu">
+    <app-home-notice></app-home-notice>
+  </nz-dropdown-menu>
+</ng-template>

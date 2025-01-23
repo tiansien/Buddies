@@ -1,0 +1,127 @@
+<div class="container mx-auto p-6">
+    <div class="bg-white rounded-lg">
+        <!-- Header -->
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold text-gray-800">Participation Requests</h1>
+                <div class="flex items-center">
+                    <nz-input-group [nzSuffix]="suffixIcon" class="w-64">
+                        <input type="text" nz-input placeholder="Search events or users" [(ngModel)]="searchValue"
+                            (keyup.enter)="search()" />
+                    </nz-input-group>
+                    <ng-template #suffixIcon>
+                        <i nz-icon nzType="search"></i>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <nz-table #participantsTable [nzData]="participants" [nzLoading]="loading" [nzPageSize]="10" nzShowSizeChanger [nzOuterBordered]="false"
+            class="w-full">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                        [nzFilters]="column.listOfFilter" [nzFilterFn]="column.filterFn">
+                        {{ column.name }}
+                    </th>
+                    <th>Apply Reason</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of participantsTable.data">
+                    <!-- User Column -->
+                    <td>
+                        <div class="flex items-center space-x-3">
+                            <nz-avatar [nzSize]="40" [nzSrc]="'http://localhost:8080/download/user/' + data.user.profilePhoto" nz-tooltip
+                                [nzTooltipTitle]="data.user.email">
+                            </nz-avatar>
+                            <div class="flex flex-col">
+                                <a class="text-purple-600 hover:text-purple-800 font-medium cursor-pointer"
+                                    (click)="navigateToProfile(data.user.id)">
+                                    {{ data.user.login }}
+                                </a>
+                                <span class="text-sm text-gray-500">{{ data.user.email }}</span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Event Column -->
+                    <td>
+                        <div class="flex flex-col">
+                            <a class="text-purple-600 hover:text-purple-800 font-medium cursor-pointer"
+                                (click)="navigateToEvent(data.event.eventId)">
+                                {{ data.event.title }}
+                            </a>
+                            <span class="text-sm text-gray-500">
+                                {{ data.event.date | date:'mediumDate' }}
+                            </span>
+                        </div>
+                    </td>
+
+                    <!-- Role Column -->
+                    <td>
+                        <nz-tag [nzColor]="'purple'">{{ data.role }}</nz-tag>
+                    </td>
+
+                    <!-- Status Column -->
+                    <td>
+                        <nz-tag
+                            [nzColor]="data.status === 'pending' ? 'gold' : data.status === 'approved' ? 'success' : 'error'">
+                            {{ data.status | titlecase }}
+                        </nz-tag>
+                    </td>
+
+                    <!-- Apply Reason Column -->
+                    <td>
+                        <span nz-tooltip [nzTooltipTitle]="data.applyReason">
+                            {{ data.applyReason.length > 50 ? (data.applyReason | slice:0:50) + '...' : data.applyReason
+                            }}
+                        </span>
+                    </td>
+
+                    <!-- Actions Column -->
+                    <td>
+                        <div class="flex space-x-2" *ngIf="data.status === 'pending'">
+                            <button nz-button nzType="primary" nzSize="small" class="bg-green-500 hover:bg-green-600"
+                                (click)="updateStatus(data, 'approved')" [nzLoading]="data.isLoading">
+                                <i nz-icon nzType="check"></i>
+                                Accept
+                            </button>
+                            <!-- <button nz-button nzType="primary" nzDanger nzSize="small" (click)="updateStatus(data, 'rejected')"
+                                [nzLoading]="data.isLoading">
+                                <i nz-icon nzType="close"></i>
+                                Reject
+                            </button> -->
+                            <button nz-button nzType="primary" nzDanger nzSize="small" (click)="showRejectModal(data)" [nzLoading]="data.isLoading">
+                                <i nz-icon nzType="close"></i>
+                                Reject
+                            </button>
+                        </div>
+                        <nz-tag *ngIf="data.status !== 'pending'" [nzColor]="data.status === 'approved' ? 'success' : 'error'">
+                            {{ data.status | titlecase }}
+                        </nz-tag>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isRejectModalVisible" nzTitle="Reject Participant" (nzOnCancel)="handleRejectCancel()"
+    (nzOnOk)="handleRejectOk()" [nzOkLoading]="selectedParticipant?.isLoading" nzOkText="Reject" nzCancelText="Cancel"
+    nzOkDanger>
+    <ng-container *nzModalContent>
+        <form nz-form>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="24">Rejection Reason</nz-form-label>
+                <nz-form-control [nzSpan]="24" nzErrorTip="Please provide a reason for rejection">
+                    <textarea nz-input [(ngModel)]="rejectReason" [nzAutosize]="{ minRows: 4, maxRows: 6 }"
+                        placeholder="Enter reason for rejection" name="rejectReason" required></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

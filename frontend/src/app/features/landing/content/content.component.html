@@ -1,0 +1,20 @@
+<div>
+  <!-- Show login form when not logged in -->
+  <div *ngIf="!loginStatus">
+    <app-login-form [loginError]="loginError"
+  [registerError]="registerError"
+  (onSubmitLoginEvent)="onLogin($event)" 
+  (onSubmitRegisterEvent)="onRegister($event)">>
+    </app-login-form>
+  </div>
+
+  <!-- Show profile editing form when logged in but profile not completed -->
+  <div *ngIf="loginStatus && !profileStatus">
+    <app-landing-edit></app-landing-edit>
+  </div>
+
+  <!-- Show router-outlet when logged in and profile is completed -->
+  <div *ngIf="loginStatus && profileStatus">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div
+  class="card-background shadow-lg rounded-3xl overflow-hidden border border-gray-300 relative hover:shadow-2xl transition-shadow duration-300">
+  <nz-card nzHoverable [nzBodyStyle]="{ padding: '0' }">
+    <div>
+    <!-- Background Image -->
+    <img (click)="redirectToDetailPage()" *ngIf="imageUrl" [src]="imageUrl" alt="Blog Image" class="w-full h-48 object-cover rounded-t-3xl" />
+
+
+    <div *ngIf="!isProfile">
+      <div>
+    <!-- Avatar positioned over the image -->
+      <div class="avatar-container" (click)="redirectToProfile()">
+        <nz-avatar [nzSize]="80" [nzSrc]="profilePictureUrl" class="bg-gray-400 border-4 border-white"></nz-avatar>
+      </div>
+
+      <!-- Author and Date Section -->
+      <div class="flex justify-between items-start pl-6 pr-5 mt-4" (click)="redirectToProfile()">
+        <div class="pl-20 text-xl font-bold">{{ postingAuthor }}</div>
+        <div class="text-sm text-gray-500 p-1 flex items-center space-x-1">
+          <i nz-icon nzType="clock-circle" nzTheme="outline" style="font-size: 16px;"></i>
+          <span>{{ postingDate }}</span>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+
+    <!-- Blog Title and Description -->
+    <div class="p-6 pt-4" (click)="redirectToDetailPage()">
+      <div class="separator" *ngIf="!isProfile"></div>
+      <h3 class="text-lg font-bold mb-2 pt-2">{{ title }}</h3>
+      <p class="text-gray-700 truncate">{{ description }}</p>
+    </div>
+
+    </div>
+
+    <!-- Like, Comment, and Category Section -->
+    <div class="flex justify-between items-center py-3 px-6 bg-purple-200 rounded-b-3xl">
+      <div class="flex items-center space-x-2 cursor-pointer" (click)="toggleLike()" nz-tooltip nzTooltipTitle="Like">
+        <i nz-icon nzType="like" [nzTheme]="isLiked? 'fill' : 'outline'" [style.color]="isLiked ? 'purple' : 'black'"
+          style="font-size: 26px;"></i>
+        <span>{{ likes }}</span>
+      </div>
+      <div class="flex items-center space-x-2 category-view px-6 py-1.5 text-base">
+        <span>{{ category }}</span>
+      </div>
+      <div class="flex items-center space-x-2" (click)="redirectToDetailPage()" nz-tooltip="Comment">
+        <i nz-icon nzType="message" nzTheme="outline" style="font-size: 26px;"></i>
+        <span>{{ CommentCount }}</span>
+      </div>
+    </div>
+  </nz-card>
+</div>

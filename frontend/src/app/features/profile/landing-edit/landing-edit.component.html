@@ -1,0 +1,107 @@
+<div class="profile-container">
+    <nz-card [nzBordered]="false" class="profile-card">
+        <nz-spin [nzSpinning]="loading">
+            <!-- Profile Picture Section -->
+            <div class="profile-picture-section">
+                <nz-upload class="profile-picture-uploader" [nzShowUploadList]="false" [nzBeforeUpload]="beforeUpload">
+                    <img [src]="profilePicturePreview || defaultProfilePicture" class="profile-picture"
+                        (error)="'http://localhost:8080/download/user/defaultProfilePicture.jpg'"
+                        alt="Profile Picture" />
+                    <div class="upload-hint">
+                        <i nz-icon nzType="camera" nzTheme="fill"></i>
+                        <span>Change Photo</span>
+                    </div>
+                </nz-upload>
+                <button *ngIf="profilePicturePreview !== defaultProfilePicture" nz-button nzType="link" nzDanger
+                    (click)="deleteProfilePicture()" class="delete-photo-btn">
+                    Reset to Default Photo
+                </button>
+            </div>
+
+            <!-- Profile Form -->
+            <form nz-form nzLayout="vertical" class="profile-form">
+                <!-- Personal Information -->
+                <nz-divider nzText="Personal Information"></nz-divider>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col [nzXs]="24" [nzSm]="12">
+                        <nz-form-item>
+                            <nz-form-label>First Name</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input [(ngModel)]="user.firstName" name="firstName"
+                                    placeholder="Enter first name" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzXs]="24" [nzSm]="12">
+                        <nz-form-item>
+                            <nz-form-label>Last Name</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input [(ngModel)]="user.lastName" name="lastName"
+                                    placeholder="Enter last name" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <nz-form-item>
+                    <nz-form-label>Email</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="user.email" name="email" type="email" placeholder="Enter email" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <!-- Academic Information -->
+                <nz-divider nzText="Academic Information"></nz-divider>
+
+                <nz-form-item>
+                    <nz-form-label>Faculty</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="profile.fac" name="faculty" nzPlaceHolder="Select faculty"
+                            class="w-100">
+                            <nz-option *ngFor="let faculty of faculties" [nzValue]="faculty.value"
+                                [nzLabel]="faculty.label"></nz-option>
+                            </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label>Program</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="profile.program" name="program" nzPlaceHolder="Select program"
+                            class="w-100">
+                            <nz-option *ngFor="let program of programs" [nzValue]="program.value"
+                                [nzLabel]="program.label"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label>Year of Study</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="profile.yearOfStudy" name="yearOfStudy" nzPlaceHolder="Select year"
+                            class="w-100">
+                            <nz-option *ngFor="let year of yearsOfStudy" [nzValue]="year.value"
+                                [nzLabel]="year.label"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label>Bio</nz-form-label>
+                    <nz-form-control>
+                        <textarea nz-input [(ngModel)]="profile.bio" name="bio"
+                            [nzAutosize]="{ minRows: 4, maxRows: 6 }"
+                            placeholder="Write something about yourself..."></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <!-- Submit Button -->
+                <div class="submit-section">
+                    <button nz-button nzType="primary" [nzLoading]="uploading" (click)="saveProfile()">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </nz-spin>
+    </nz-card>
+</div>

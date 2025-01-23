@@ -1,0 +1,84 @@
+<!-- edit-blog.component.html -->
+<div class="bg-purple-50 max-h-max content-center items-center">
+    <div *ngIf="showAlert" class="mt-2">
+        <nz-alert [nzMessage]="alertMessage" nzType="error" (nzOnClose)="showAlert=false"></nz-alert>
+    </div>
+    <div class="edit-blog-container max-w-4xl mx-auto p-8 rounded-lg border shadow-md bg-white">
+        <div class="">
+            <!-- Profile Section -->
+            <div class="flex items-center mb-8">
+                <img class="profile-avatar w-24 h-24 rounded-full border-4 border-purple-300" [src]="pictureUrl"
+                    alt="User Avatar" />
+                <div class="ml-6">
+                    <h1 class="text-3xl font-bold mb-2">{{ username }}</h1>
+                    <div class="flex gap-4">
+                        <span class="bg-yellow-400 text-black py-1 px-3 rounded-full text-sm font-bold">{{ faculty
+                            }}</span>
+                        <span class="bg-orange-400 text-black py-1 px-3 rounded-full text-sm font-bold">{{ program
+                            }}</span>
+                        <span class="bg-purple-300 text-white py-1 px-3 rounded-full text-sm font-bold">{{ yearOfStudy
+                            }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Existing Images -->
+            <div class="mb-6" *ngIf="existingImages.length > 0">
+                <label class="block text-lg font-bold mb-2">Current Images</label>
+                <div class="grid grid-cols-3 gap-4">
+                    <div *ngFor="let image of existingImages; let i = index" class="relative">
+                        <img [src]="image" class="w-full h-32 object-cover rounded">
+                        <button class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                            (click)="removeExistingImage(i)">
+                            <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New File Input Section -->
+            <div class="flex flex-col mb-6">
+                <label for="files" class="mb-2 font-medium">Add New Files</label>
+                <input type="file" id="files" (change)="onFileSelected($event)" multiple
+                    class="w-full file:border file:px-4 file:py-2 file:bg-blue-50 file:text-blue-700 file:rounded">
+            </div>
+
+            <!-- Title Input -->
+            <div class="mb-4">
+                <label class="block text-lg font-bold mb-2" for="title">Title</label>
+                <input id="title" nz-input [(ngModel)]="title" placeholder="Enter blog title"
+                    class="w-full p-3 border border-gray-300 rounded-lg" />
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="mb-4">
+                <label class="block text-lg font-bold mb-2" for="category">Category</label>
+                <nz-select id="category" class="w-full" [(ngModel)]="description2" placeholder="Select category">
+                    <nz-option nzValue="Technology" nzLabel="Technology"></nz-option>
+                    <nz-option nzValue="Education" nzLabel="Education"></nz-option>
+                    <nz-option nzValue="Lifestyle" nzLabel="Lifestyle"></nz-option>
+                    <nz-option nzValue="Travel" nzLabel="Travel"></nz-option>
+                    <nz-option nzValue="Sport" nzLabel="Sport"></nz-option>
+                    <nz-option nzValue="Fashion" nzLabel="Fashion"></nz-option>
+                    <nz-option nzValue="Event" nzLabel="Event"></nz-option>
+                </nz-select>
+            </div>
+
+            <!-- Post Description -->
+            <div class="mb-6">
+                <label class="block text-lg font-bold mb-2" for="description">Post Description</label>
+                <textarea id="description" nz-input [(ngModel)]="description" rows="5"
+                    placeholder="Enter post description"
+                    class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+            </div>
+
+            <!-- Update Button -->
+            <div class="flex justify-end gap-4">
+                <button nz-button class="bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
+                    (click)="navigateToBlog()">CANCEL</button>
+                <button nz-button nzType="primary" class="bg-purple-800 text-white px-6 py-3 rounded-lg font-bold"
+                    (click)="onSubmitEdit()">UPDATE</button>
+            </div>
+        </div>
+    </div>
+</div>

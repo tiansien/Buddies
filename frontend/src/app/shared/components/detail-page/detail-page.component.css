@@ -1,0 +1,23 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Full height of the container */
+}
+
+.header-section {
+    flex-shrink: 0;
+    /* Prevent this section from shrinking */
+}
+
+.comments-section {
+    flex-grow: 1;
+    /* Allow this section to grow and fill available space */
+    overflow-y: auto;
+    /* Make this section scrollable */
+}
+
+.comment-input {
+    flex-shrink: 0;
+    /* Keep the input section at the bottom */
+}

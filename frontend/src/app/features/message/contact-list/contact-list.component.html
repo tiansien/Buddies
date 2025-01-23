@@ -1,0 +1,24 @@
+<div class="h-full flex flex-col">
+    <!-- Search Bar - Fixed at top -->
+    <div class="p-4 border-b border-gray-200 bg-white">
+        <input type="text" [(ngModel)]="searchTerm" (input)="filterContacts()"
+            placeholder="Search contacts"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500" />
+    </div>
+
+    <!-- Contact List - Scrollable -->
+    <div class="overflow-y-auto flex-1">
+        <div *ngFor="let contact of filteredContacts" (click)="selectContact(contact)"
+            [ngClass]="{'bg-purple-100': isSelected(contact)}"
+            class="p-4 flex items-center cursor-pointer hover:bg-gray-50 border-b border-gray-100">
+            <img [src]="contact.avatarUrl" class="w-12 h-12 rounded-full mr-4 border-2 border-purple-300"
+                alt="avatar" />
+            <div class="flex-1 min-w-0">
+                <h3 class="font-bold truncate">{{ contact.login }}</h3>
+                <div class="text-sm text-gray-600 truncate">
+                    {{ contact.lastMessage }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<app-def-layout-content>
+  <ng-container sider>
+    <app-side-nav></app-side-nav>
+  </ng-container>
+
+  <ng-container sider-header>
+    <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
+  </ng-container>
+
+  <ng-template #headerTpl>
+    <app-tool-bar>
+      <ng-container left>
+        <i class="trigger" nz-icon nzType="menu-fold" nzTheme="outline" (click)="changeCollapsed()"></i>
+      </ng-container>
+      <ng-container right>
+        <app-layout-head-right-menu></app-layout-head-right-menu>
+      </ng-container>
+    </app-tool-bar>
+  </ng-template>
+</app-def-layout-content>

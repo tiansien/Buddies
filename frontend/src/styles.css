@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Purple shades */
+  --color-russian-violet: #461e5c;
+  --color-rebecca-purple: #72369d;
+  --color-amethyst: #9d4edd;
+  --color-lavender: #b67be6;
+  --color-wisteria: #cea7ee;
+
+  /* Yellow and orange shades */
+  --color-sunglow: #ffcf70;
+  --color-amber: #ffc243;
+  --color-orange: #ffad03;
+  --color-dark-orange: #fa8b01;
+  --color-pumpkin: #f56a00;
+}
+
+.ant-menu {
+  background-color: #5d2e8c; /* Set your desired background color */
+}
+
+.ant-menu-item,
+.ant-menu-submenu-title {
+  transition: background-color 0.3s;
+}
+
+/* Hover effect */
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  background-color: #ffe9be; /* Background color on hover */
+  /* color: #ffffff; Text color on hover */
+}
+
+.card-hover:hover {
+  background-color: #ffe9be;
+}
+
+.card-item-hover:hover {
+  background-color: #ffe9be;
+}

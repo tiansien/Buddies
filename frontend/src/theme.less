@@ -1,0 +1,40 @@
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import "../node_modules/ng-zorro-antd/src/style/themes/default.less";
+
+@layout-header-background: @component-background;
+@layout-header-padding: 0;
+
+// Override less variables here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+@primary-color: #461E5C;
+//@btn-primary-color: #28CB8B;
+//@btn-primary-bg: #28CB8B;
+// @card-background: #ecfdf5;
+// @card-hoverable-hover-border: #9b959e;
+
+:root {
+    /* Purple shades */
+    --color-russian-violet: #461E5C;
+    --color-rebecca-purple: #72369D;
+    --color-amethyst: #9D4EDD;
+    --color-lavender: #B67BE6;
+    --color-wisteria: #CEA7EE;
+  
+    /* Orange and yellow shades */
+    --color-pumpkin: #F56A00;
+    --color-dark-orange: #FA8B01;
+    --color-orange: #FFAD03;
+    --color-amber: #FFC243;
+    --color-sunglow: #FFCF70;
+  
+    /* Custom theme colors for NG-Zorro */
+    --primary-color: var(--color-amethyst);
+    --secondary-color: var(--color-rebecca-purple);
+    --success-color: var(--color-sunglow);
+    --warning-color: var(--color-orange);
+    --error-color: var(--color-pumpkin);
+    --info-color: var(--color-wisteria);
+  }
+  

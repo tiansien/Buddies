@@ -1,0 +1,51 @@
+.card-background {
+  background-color: #ffffff;
+  border-radius: 32px;
+  border: 1px solid #e3e3e3;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  /* Ensure the card takes the full available width of its container */
+}
+
+.card-background:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-container {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: #72369D;
+  border-radius: 50%;
+  padding: 2px;
+  
+}
+
+.nz-card {
+  padding-top: 0;
+}
+
+.bg-purple-200 {
+  background-color: #e9d8fd;
+}
+
+.category-view {
+  background-color: #b8e1c5;
+  border-radius: 16px;
+  padding: 0.25rem 0.75rem;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #2f855a;
+  text-align: center;
+}
+
+.separator {
+  width: 100%;
+  height: 2px;
+  background-color: rgb(233, 233, 233);
+  border-radius: 1px;
+}

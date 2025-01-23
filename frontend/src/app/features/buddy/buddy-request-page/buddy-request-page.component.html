@@ -1,0 +1,143 @@
+<!-- <div class="buddy-request-container max-w-6xl mx-auto p-8 rounded-lg">
+    <div class="header mb-8">
+        <h1 class="text-3xl font-bold">Request Buddy</h1>
+    </div>
+</div> -->
+
+
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Find Your Buddy</h1>
+            <!-- <p class="text-lg text-gray-600 max-w-2xl mx-auto">Connect with fellow students who share your academic interests and goals</p> -->
+            <p class="font-bold text-fuchsia-500">*You are allowed to make a buddy request only once and must wait for it to be either accepted or rejected before making
+            another.</p>
+        </div>
+
+        <div class="search-filter mt-8 mb-12 text-center">
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name or username"
+                class="mr-2 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-1/3">
+            <select [(ngModel)]="filterProgram"
+                class="p-2 mr-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-2/6">
+                <option value="">All Program</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Information System">Information System</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Computer System and Network">Computer System and Network</option>
+            </select>
+            <select [(ngModel)]="filterYear" class="p-2 mr-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-1/6">
+                <option value="">All Years</option>
+                <option value="First Year">First Year</option>
+                <option value="Second Year">Second Year</option>
+                <option value="Third Year">Third Year</option>
+                <option value="Fourth Year">Fourth Year</option>
+            </select>
+            <button (click)="applyFilters()" class="px-4 py-2 bg-purple-500 text-white rounded">Apply</button>
+        </div>
+
+
+        <button (click)="openBuddyRequestDrawer()" class="fixed right-8 top-24 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg
+                       shadow-lg hover:shadow-xl transition-all duration-200
+                       flex items-center space-x-2">
+            <span class="text-lg">🤝</span>
+            <span class="font-semibold">Buddy Requests</span>
+            <span class="ml-2 px-2 py-0.5 bg-white text-purple-600 rounded-full text-sm font-bold">{{ buddyRequests.length }}</span>
+        </button>
+
+
+        <!-- Main Content -->
+        <div class="buddy-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div *ngFor="let buddy of buddies"
+                class="buddy-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2">
+                <!-- Profile Header -->
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
+                    <div class="flex items-center">
+                        <div class="relative" (click)="redirectToProfile(buddy.user.id)" nz-tooltip="{{buddy.user.login}}'s Profile">
+                            <img class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
+                                [src]="'http://localhost:8080/download/User/' + buddy.user.profilePhoto"
+                                [alt]="buddy.user.firstName" 
+                                (error)="handleImageError($event)" />
+                        </div>
+                        <div class="ml-4 text-white">
+                            <h2 class="text-xl font-bold">{{buddy.user.firstName}} {{buddy.user.lastName}}</h2>
+                            <p class="text-purple-200">{{buddy.user.login}}</p>
+                            <div class="mt-2">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                                    {{buddy.profile.yearOfStudy}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Info -->
+                <div class="p-4">
+                    <!-- Faculty -->
+                    <div class="mb-3">
+                        <div class="bg-yellow-300 text-yellow-800 rounded-lg p-2 text-sm font-medium text-center">
+                            {{buddy.profile.fac}} ({{buddy.profile.program}})
+                        </div>
+                    </div>
+
+                    <!-- Program -->
+                    <!-- <div class="mb-3">
+                        <div class="bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg p-2">
+                            <p class="text-white text-center font-semibold">{{buddy.profile.program}}</p>
+                        </div>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <div class="bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg p-2 text-sm font-medium text-center text-white">
+                            {{buddy.profile.program}}
+                        </div>
+                    </div>
+                    
+
+                    <!-- Bio -->
+                    <div class="mb-4">
+                        <div class="bg-yellow-50 rounded-lg p-3">
+                            <p class="text-gray-600 text-sm line-clamp-3">{{buddy.profile.bio}}</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <!-- <button (click)="sendBuddyRequest(buddy.user.id, buddy.user.login)" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 px-6 rounded-lg font-semibold
+                        transition-all duration-200 hover:from-purple-700 hover:to-indigo-700 
+                        focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                        [disabled]="buddy.requestStatus === 'pending' || buddy.requestStatus === 'rejected'"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': buddy.requestStatus === 'pending' || buddy.requestStatus === 'rejected'}"> -->
+                        <!-- Add status indicator -->
+                        <!-- <ng-container [ngSwitch]="buddy.requestStatus">
+                            <span *ngSwitchCase="'pending'">Request Pending</span>
+                            <span *ngSwitchCase="'rejected'">Request Rejected</span>
+                            <span *ngSwitchDefault>Send Buddy Request</span>
+                        </ng-container>
+                    </button> -->
+                    <button (click)="sendBuddyRequest(buddy.user.id, buddy.user.login)" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 px-6 rounded-lg font-semibold
+                                            transition-all duration-200 hover:from-purple-700 hover:to-indigo-700 
+                                            focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                        [disabled]="!statusForButton"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': !statusForButton}">
+                        <!-- Add status indicator -->
+                        Request for buddy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading and Empty States remain the same -->
+        <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent"></div>
+        </div>
+
+        <div *ngIf="!isLoading && buddies.length === 0" class="text-center py-12">
+            <div class="text-gray-400 text-xl">No buddies found</div>
+        </div>
+
+        <div *ngIf="!isLoading && !hasMoreData && buddies.length > 0" class="text-center py-8">
+            <div class="text-gray-500">You've reached the end of the list</div>
+        </div>
+    </div>
+</div>

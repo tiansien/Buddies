@@ -1,0 +1,59 @@
+<div class="items-center content-center h-full bg-purple-50">
+  <form nz-form [formGroup]="eventForm" (ngSubmit)="submitForm()"
+    class="flex flex-col gap-6 items-center px-4 ">
+
+    <div class="space-y-4 w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+      <h1 class="text-xl font-semibold text-gray-800 mb-4 pb-2">Add New Event</h1>
+    
+      <!-- Each form item is now structured with labels clearly above inputs -->
+      <div class="flex flex-col">
+        <label for="title" class="mb-2 font-medium">Title *</label>
+        <input type="text" formControlName="title" id="title" placeholder="Enter event title"
+          class="w-full rounded border-gray-300 border p-2" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="date" class="mb-2 font-medium">Date *</label>
+        <input type="date" formControlName="date" id="date" class="w-full rounded border-gray-300 border p-2" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="applyDueDate" class="mb-2 font-medium">Apply Due Date *</label>
+        <input type="date" formControlName="applyDueDate" id="applyDueDate" class="w-full rounded border-gray-300 border p-2" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="location" class="mb-2 font-medium">Location *</label>
+        <input type="text" formControlName="location" id="location" placeholder="Enter event location"
+          class="w-full rounded border-gray-300 border p-2" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="description" class="mb-2 font-medium">Description *</label>
+        <textarea formControlName="description" id="description" rows="3" placeholder="Enter event description"
+          class="w-full rounded border-gray-300 border p-2"></textarea>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="eventType" class="mb-2 font-medium">Event Type *</label>
+        <nz-select formControlName="eventType" id="eventType" nzPlaceHolder="Select an event type" class="w-full">
+          <nz-option nzValue="workshop" nzLabel="Workshop"></nz-option>
+          <nz-option nzValue="seminars" nzLabel="Seminars"></nz-option>
+          <nz-option nzValue="networking event" nzLabel="Networking Event"></nz-option>
+          <nz-option nzValue="conferences" nzLabel="Conferences"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="files" class="mb-2 font-medium">Files *</label>
+        <input type="file" formControlName="files" id="files" (change)="onFileSelected($event)" multiple
+          class="w-full file:border file:px-4 file:py-2 file:bg-blue-50 file:text-blue-700 file:rounded">
+      </div>
+
+      <button nz-button nzType="primary" [disabled]="!eventForm.valid"
+        class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

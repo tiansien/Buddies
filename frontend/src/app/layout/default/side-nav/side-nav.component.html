@@ -1,0 +1,23 @@
+<div class="left-nav-wrap">
+  <div class="sidebar-logo">
+    <a href="javascript:void(0)">
+      <img
+        src="assets\images\logo.svg"
+        alt="logo"
+        *ngIf="isCollapsed$ | async"
+        (click)="eventPage()"
+      />
+      <img
+        src="assets\images\test.svg"
+        alt="logo"
+        *ngIf="!(isCollapsed$ | async)"
+        (click)="eventPage()"
+      />
+      <br />
+      <!-- <h1 class="animiate-02">Buddies</h1> -->
+    </a>
+  </div>
+  <div class="nav-ul-wrap">
+    <app-nav-bar></app-nav-bar>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<ul nz-menu nzMode="inline" class="rounded-lg shadow-lg" [nzInlineCollapsed]="isCollapsed$ | async">
+  <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"></ng-container>
+  <ng-template #menuTpl let-menus>
+    <ng-container *ngFor="let menu of menus">
+      <!-- Only show menu item if it's not admin-only or if user is admin, and if not user-only or if user is user -->
+      <ng-container *ngIf="(!menu.adminOnly || isAdmin) && (!menu.userOnly || isUser)">
+        <li nz-menu-item *ngIf="!menu.children || menu.children.length === 0" [nzSelected]="menu.selected">
+          <a class="menu-item-link" [routerLink]="[menu.path]">
+            <i nz-icon [nzType]="menu.icon"></i>
+            <span>{{ menu.title }}</span>
+          </a>
+        </li>
+
+        <ng-container *ngIf="menu.children && menu.children.length > 0">
+          <li [nzTitle]="menu.title" [nzIcon]="menu.icon" nz-submenu [(nzOpen)]="menu.open">
+            <ul>
+              <ng-container *ngFor="let menuSecond of menu.children">
+                <ng-container *ngIf="(!menuSecond.adminOnly || isAdmin) && (!menuSecond.userOnly || isUser)">
+                  <li nz-menu-item [nzSelected]="menuSecond.selected"
+                    *ngIf="!menuSecond.children || menuSecond.children.length === 0">
+                    <a class="menu-item-link" [routerLink]="[menuSecond.path]">
+                      <span>{{ menuSecond.title }}</span>
+                    </a>
+                  </li>
+                  <!-- Further nested items can be handled similarly -->
+                </ng-container>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+</ul>

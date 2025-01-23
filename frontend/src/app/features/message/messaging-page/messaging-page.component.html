@@ -1,0 +1,18 @@
+<div class="messaging-page flex h-full">
+    <div class="w-1/4 flex-shrink-0 border-r border-gray-200">
+        <app-contact-list [contacts]="contacts" [selectedContact]="selectedContact"
+            (contactSelected)="onSelectContact($event)">
+        </app-contact-list>
+    </div>
+
+    <div class="w-3/4 bg-white" *ngIf="selectedContact; else noSelection">
+        <app-chat-area [selectedContact]="selectedContact" (messageSent)="onMessageSent()">
+        </app-chat-area>
+    </div>
+
+    <ng-template #noSelection>
+        <div class="w-3/4 flex items-center justify-center text-gray-500 bg-white">
+            Select a contact to start chatting
+        </div>
+    </ng-template>
+</div>

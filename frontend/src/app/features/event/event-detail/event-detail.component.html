@@ -1,0 +1,159 @@
+<nz-spin [nzSpinning]="loading" [nzSize]="'large'">
+    <div class="detail-page-container p-6 flex h-full overflow-hidden">
+        <!-- Left Carousel Section -->
+        <div class="carousel-container w-1/2 pr-4 h-full sticky top-0">
+            <nz-carousel nzAutoPlay [nzEffect]="'fade'" class="justify-center content-center h-full">
+                <div nz-carousel-content *ngFor="let image of images">
+                    <img [src]="image" class="w-full h-full object-cover rounded-lg" alt="Event Image" />
+                </div>
+            </nz-carousel>
+        </div>
+
+        <!-- Right Content Section -->
+        <div class="content-container w-1/2 pl-4 flex flex-col overflow-y-auto h-full">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="flex justify-between pr-2">
+                    <h3 class="text-2xl font-bold mb-4">{{ details?.title }}</h3>
+
+                    <div>
+                    <div *ngIf="showEdit">
+                        <button nz-button nzType="default" (click)="editEvent()" class="mb-2">
+                            Edit Event
+                        </button>
+                    </div>
+                    <button nz-button nzType="primary" *ngIf="role !== 'admin'"
+                        class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg flex items-center gap-2"
+                        (click)="showApplyModal()" [disabled]="participantStatus !== '' || isExpiredEvent">
+                        <i nz-icon nzType="user-add" class="text-lg"></i>
+                        <span>
+                            <span *ngIf="participantStatus === 'pending'">Pending</span>
+                            <span *ngIf="participantStatus === 'accepted'">Accepted</span>
+                            <span *ngIf="participantStatus === 'rejected'">Rejected</span>
+                            <span *ngIf="participantStatus === ''">Apply</span>
+                        </span>
+                    </button>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500 mb-1"><strong>Date:</strong> {{ details?.date | date: 'fullDate' }}</p>
+                    <p class="text-sm text-gray-500"><strong>Location:</strong> {{ details?.location }}</p>
+                    <p></p>
+                    <p class="text-sm text-gray-500 mb-1"><strong>Apply Due Date:</strong> {{ details?.applyDueDate | date: 'fullDate' }}</p>
+                </div>
+                <p class="text-gray-700 mb-4">{{ details?.description }}</p>
+                <p class="text-sm text-purple-700 font-bold mb-4">
+                    Event Type: {{ details?.eventType | titlecase }}
+                </p>
+            </div>
+
+            <!-- Like and Comment Buttons -->
+            <div class="flex items-center gap-4 mb-4 bg-purple-300 rounded-lg">
+                <div class="flex items-center space-x-2 p-2">
+                    <i nz-icon nzType="like" [nzTheme]="isLiked ? 'fill' : 'outline'" [style.color]="isLiked ? 'purple' : 'black'"
+                        style="font-size: 24px;" (click)="toggleLike()" nz-tooltip="Like"></i>
+                    <span class="text-lg font-semibold">{{ likes }}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i nz-icon nzType="message" nzTheme="outline" style="font-size: 24px;"></i>
+                    <span class="text-lg font-semibold">{{ comments.length }}</span>
+                </div>
+            </div>
+
+            <!-- Scrollable Comments Section -->
+            <div *ngFor="let comment of comments" class="flex items-start mb-4">
+                <img class="w-12 h-12 rounded-full border-2 border-gray-200" [src]="comment.userProfile?.profilePhoto"
+                    alt="User Avatar" (click)="redirectToProfile(comment)" nz-tooltip="{{ comment.userProfile?.login }}'s Profile">
+                <div class="ml-4">
+                    <h4 class="font-bold">{{ comment.userProfile?.login }} <span class="text-xs text-gray-500 pl-1">{{
+                            formatDate(comment.timestamp) }}</span></h4>
+                    <p class="text-gray-600">{{ comment.content }}</p>
+                </div>
+            </div>
+
+            <!-- Fixed Comment Input -->
+            <div class="comment-input p-2 bg-purple-200">
+                <form (ngSubmit)="submitComment()" class="flex">
+                    <input type="text" [(ngModel)]="newComment" name="newComment"
+                        class="flex-1 p-2 border-2 border-gray-300 rounded-md" placeholder="Type your comment..." required>
+                    <button type="submit" class="ml-2 px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nz-spin>
+
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Apply for {{ details?.title }}" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" [nzOkDisabled]="!selectedRole" nzWidth="600px">
+
+    <ng-container *nzModalContent>
+        <div class="space-y-6">
+            <!-- Event Information -->
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <h4 class="text-lg font-semibold text-purple-700 mb-2">Event Details</h4>
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">Type:</span> {{ details?.eventType | titlecase }}
+                </p>
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">Date:</span> {{ details?.date | date: 'fullDate' }}
+                </p>
+            </div>
+
+            <!-- ... (previous modal content remains the same until role selection) -->
+            <div class="space-y-4">
+                <h4 class="text-lg font-semibold text-gray-700">Select Your Role</h4>
+                <div class="grid grid-cols-1 gap-3">
+                    <div *ngFor="let role of getAvailableRoles()"
+                        class="relative flex items-start p-4 cursor-pointer border rounded-lg"
+                        [class.border-purple-500]="selectedRole === role.name" [class.bg-purple-50]="selectedRole === role.name"
+                        (click)="onRoleSelect(role.name)">
+                        <div class="flex items-center h-5">
+                            <input type="radio" [checked]="selectedRole === role.name" [value]="role.name" name="role"
+                                class="h-4 w-4 text-purple-600 border-gray-300 focus:ring-purple-500">
+                        </div>
+                        <div class="ml-3">
+                            <label class="font-medium text-gray-700">{{ role.name }}</label>
+                            <p class="text-gray-500 text-sm">{{ role.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Organizer Position Selection -->
+            <div *ngIf="showPositionSelection" class="space-y-4 mt-6">
+                <h4 class="text-lg font-semibold text-gray-700">Select Organizer Position</h4>
+                <div class="grid grid-cols-1 gap-3">
+                    <div *ngFor="let position of organizerPositions"
+                        class="relative flex items-start p-4 cursor-pointer border rounded-lg"
+                        [class.border-purple-500]="selectedPosition === position.name"
+                        [class.bg-purple-50]="selectedPosition === position.name" (click)="selectedPosition = position.name">
+                        <div class="flex items-center h-5">
+                            <input type="radio" [checked]="selectedPosition === position.name" [value]="position.name"
+                                name="position" class="h-4 w-4 text-purple-600 border-gray-300 focus:ring-purple-500">
+                        </div>
+                        <div class="ml-3">
+                            <label class="font-medium text-gray-700">{{ position.name }}</label>
+                            <p class="text-gray-500 text-sm">{{ position.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedRole === 'Organizer' && !selectedPosition" class="text-red-500 text-sm">
+                    Please select an organizer position
+                </div>
+            </div>
+
+            <!-- Application Note -->
+            <div class="space-y-2">
+                <h4 class="text-lg font-semibold text-gray-700">Why Apply for the Role (Compulsory)</h4>
+                <textarea [(ngModel)]="applicationNote" nz-input nzAutosize required
+                    placeholder="Tell us why you're interested in this role"
+                    class="w-full p-2 border rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                </textarea>
+                <div *ngIf="!applicationNote" class="text-red-500 text-sm">This field is required</div>
+            </div>
+        </div>
+    </ng-container>
+</nz-modal>

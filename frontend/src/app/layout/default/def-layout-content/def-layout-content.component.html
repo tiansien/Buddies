@@ -1,0 +1,25 @@
+<nz-layout
+  class="min-screen-full-height"
+  [ngClass]="{ 'collapsed-sider': (isCollapsed$ | async) === true }"
+>
+  <nz-sider
+    class="px-2"
+    [ngClass]="{ 'px-3': (isCollapsed$ | async) === true }"
+    [nzCollapsed]="isCollapsed$ | async"
+  >
+    <ng-content select="ng-container[sider]"></ng-content>
+  </nz-sider>
+
+  <nz-layout>
+    <nz-header>
+      <ng-content select="ng-container[sider-header]"></ng-content>
+    </nz-header>
+
+    <nz-layout>
+      <nz-content>
+        <router-outlet></router-outlet>
+        <!-- <nz-footer></nz-footer> -->
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

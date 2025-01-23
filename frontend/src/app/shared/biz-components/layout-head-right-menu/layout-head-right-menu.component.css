@@ -1,0 +1,55 @@
+/* Keep your existing styles intact */
+.bst-header-wrap {
+  height: 100%;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.bst-header-icon {
+  height: 100%;
+  padding: 0 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.bst-header-icon .avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px; /* Adjust margin as needed */
+  border-radius: 50%;
+  border-width: 2px;
+  border-color: rgb(197, 155, 197); /* Add purple border color */
+  border-style: solid; /* Ensure the border is solid */
+}
+
+.bst-header-icon:hover {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.user-settings {
+  display: flex; /* Aligns image and name horizontally */
+  align-items: center;
+}
+
+/* New styles for the dropdown menu to fix alignment issues */
+.dropdown-item-wrapper {
+  display: flex;
+  align-items: center; /* Align icon and text vertically centered */
+  padding: 8px 16px; /* Space for comfortable click area */
+}
+
+.dropdown-item-link {
+  display: flex; /* Align icon and text horizontally */
+  align-items: center; /* Vertically align the icon and text */
+  width: 100%; /* Ensure the entire width of the item is clickable */
+  color: inherit; /* Match text color with parent */
+  text-decoration: none; /* Remove any underlines */
+}
+
+.dropdown-item-icon {
+  font-size: 16px; /* Match the icon size to the text size */
+  margin-right: 8px; /* Space between the icon and the text */
+  line-height: 1; /* Align icon vertically with the text */
+}
